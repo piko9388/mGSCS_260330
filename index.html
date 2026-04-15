@@ -850,10 +850,8 @@ async function startFetch(){
   // ★ BugFix: 수집 중 카운트다운 정지
   clearInterval(cdInterval);
 
-  if(!getApiKey()){
-    const goModal = confirm("AI 요약 기능을 위해 Anthropic API 키가 필요합니다.\n지금 입력하시겠습니까?\n\n(취소 시 키워드 필터만으로 수집합니다)");
-    if(goModal){ openApiKeyModal(); return; }
-  }
+  // API 키 없으면 키워드 필터 모드로 자동 진행 (팝업 차단 방지)
+  const hasKey = !!getApiKey();
 
   isLoading=true;
   setDot("loading");setStatus("언론사 RSS 수집 중...",false);setBtn(true);
@@ -1523,6 +1521,7 @@ if(countdown<=0)startFetch();
 // ════════════════════════════════════════
 // 초기화
 // ════════════════════════════════════════
+try {
 updateApiKeyBtn();
 
 const savedScm = loadScmIssues();
@@ -1530,7 +1529,6 @@ if(savedScm.length > 0) renderScmIssues(savedScm);
 
 const savedNews = loadNewsDB();
 if(savedNews.length > 0){
-// ★ BugFix: 로드 시 isNew 플래그 제거
 savedNews.forEach(n => { delete n.isNew; });
 allNews = savedNews;
 updateDbBar(savedNews);
@@ -1544,6 +1542,10 @@ updateDbBar([]);
 }
 
 startFetch();
+} catch(initErr) {
+console.error(“초기화 오류:”, initErr);
+document.getElementById(“statusText”).textContent = “⚠️ 초기화 오류: “ + initErr.message;
+}
 </script>
 
 </body>
