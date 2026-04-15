@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
 <meta charset="UTF-8"/>
@@ -149,6 +150,7 @@ body{min-height:100vh;background:#F4F6F9;font-family:'Malgun Gothic','Trebuchet 
 <body>
 
 <!-- API KEY 모달 -->
+
 <div id="apiKeyOverlay" class="modal-overlay" onclick="if(event.target===this)closeApiKeyModal()">
   <div class="modal-box" style="width:480px;">
     <div class="modal-head">
@@ -185,6 +187,7 @@ body{min-height:100vh;background:#F4F6F9;font-family:'Malgun Gothic','Trebuchet 
 </div>
 
 <!-- KEYWORD / CATEGORY 모달 -->
+
 <div id="kwOverlay" class="modal-overlay" onclick="if(event.target===this)closeKwModal()">
   <div class="modal-box" style="width:740px;">
     <div class="modal-head">
@@ -200,6 +203,7 @@ body{min-height:100vh;background:#F4F6F9;font-family:'Malgun Gothic','Trebuchet 
 </div>
 
 <!-- ★ 보고서 미리보기 모달 -->
+
 <div id="reportOverlay" class="modal-overlay" onclick="if(event.target===this)closeReportModal()">
   <div class="modal-box" style="width:860px;">
     <div class="modal-head">
@@ -224,6 +228,7 @@ body{min-height:100vh;background:#F4F6F9;font-family:'Malgun Gothic','Trebuchet 
 </div>
 
 <!-- HEADER -->
+
 <div id="header">
   <div class="hd-top">
     <div class="brand">
@@ -250,6 +255,7 @@ body{min-height:100vh;background:#F4F6F9;font-family:'Malgun Gothic','Trebuchet 
 </div>
 
 <!-- DB 상태 바 -->
+
 <div id="dbBar">
   📦 누적 DB: <strong id="dbCount">0</strong>건
   <span>·</span>
@@ -259,6 +265,7 @@ body{min-height:100vh;background:#F4F6F9;font-family:'Malgun Gothic','Trebuchet 
 </div>
 
 <!-- ★ 공급망 영향 이슈 섹션 -->
+
 <div id="scmSection">
   <div class="scm-header">
     <div class="scm-title">
@@ -289,6 +296,7 @@ body{min-height:100vh;background:#F4F6F9;font-family:'Malgun Gothic','Trebuchet 
 <div id="footer">재난·위기 뉴스 모니터 · AI 이중 검증 필터링 시스템</div>
 
 <!-- Toast -->
+
 <div id="toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1E293B;color:#fff;padding:10px 20px;border-radius:8px;font-size:12px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:opacity .3s;opacity:0;pointer-events:none;"></div>
 
 <script>
@@ -1060,6 +1068,7 @@ a{color:#2563EB;text-decoration:none;}
 a:hover{text-decoration:underline;}
 @media print{body{padding:10px;}.report{padding:20px 16px;}}
 </style>
+
 </head>
 <body>
 <div class="report">
@@ -1078,6 +1087,7 @@ a:hover{text-decoration:underline;}
   </div>
 
   <!-- 1. 요약 -->
+
   <div class="section">
     <div class="section-title">📊 리스크 현황 요약</div>
     <div class="summary-grid">
@@ -1107,6 +1117,7 @@ a:hover{text-decoration:underline;}
   </div>
 
   <!-- 2. 공급망 영향 이슈 (mGSCS) -->
+
   <div class="section">
     <div class="section-title">🏭 반도체 소재 공급망 영향 이슈 (mGSCS)</div>
     ${scmIssues.length === 0
@@ -1127,7 +1138,9 @@ a:hover{text-decoration:underline;}
   </div>
 
   <!-- 3. 긴급 이슈 상세 -->
-  ${highItems.length > 0 ? `
+
+${highItems.length > 0 ? `
+
   <div class="section">
     <div class="section-title" style="border-left-color:#DC2626;">🔴 긴급 이슈</div>
     <table class="news-table">
@@ -1146,7 +1159,9 @@ a:hover{text-decoration:underline;}
   </div>` : ""}
 
   <!-- 4. 주의 이슈 -->
-  ${medItems.length > 0 ? `
+
+${medItems.length > 0 ? `
+
   <div class="section">
     <div class="section-title blue">🟡 주의 이슈</div>
     <table class="news-table">
@@ -1164,7 +1179,9 @@ a:hover{text-decoration:underline;}
   </div>` : ""}
 
   <!-- 5. 최근 24시간 전체 뉴스 -->
-  ${recent24.length > 0 ? `
+
+${recent24.length > 0 ? `
+
   <div class="section">
     <div class="section-title green">📰 최근 24시간 수집 뉴스 (${recent24.length}건)</div>
     <table class="news-table">
@@ -1191,372 +1208,316 @@ a:hover{text-decoration:underline;}
 </body>
 </html>`;
 
-  lastReportHTML = html;
+lastReportHTML = html;
 
-  // iframe에 렌더링
-  const frame = document.getElementById("reportFrame");
-  frame.srcdoc = html;
-  document.getElementById("reportOverlay").classList.add("open");
+// iframe에 렌더링
+const frame = document.getElementById(“reportFrame”);
+frame.srcdoc = html;
+document.getElementById(“reportOverlay”).classList.add(“open”);
 }
 
 function closeReportModal(){
-  document.getElementById("reportOverlay").classList.remove("open");
+document.getElementById(“reportOverlay”).classList.remove(“open”);
 }
 
 function downloadReportHTML(){
-  if(!lastReportHTML) return;
-  const now = new Date();
-  const fname = `mGSCS_일일보고서_${now.getFullYear()}${String(now.getMonth()+1).padStart(2,"0")}${String(now.getDate()).padStart(2,"0")}.html`;
-  const blob = new Blob([lastReportHTML], {type:"text/html;charset=utf-8"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url; a.download = fname; a.click();
-  URL.revokeObjectURL(url);
-  showToast(`📥 ${fname} 다운로드 완료`);
+if(!lastReportHTML) return;
+const now = new Date();
+const fname = `mGSCS_일일보고서_${now.getFullYear()}${String(now.getMonth()+1).padStart(2,"0")}${String(now.getDate()).padStart(2,"0")}.html`;
+const blob = new Blob([lastReportHTML], {type:“text/html;charset=utf-8”});
+const url = URL.createObjectURL(blob);
+const a = document.createElement(“a”);
+a.href = url; a.download = fname; a.click();
+URL.revokeObjectURL(url);
+showToast(`📥 ${fname} 다운로드 완료`);
 }
 
 function copyReportText(){
-  // HTML → 플레인텍스트 변환
-  const news = allNews;
-  const scmIssues = loadScmIssues();
-  const now = new Date();
-  const dateStr = now.toLocaleDateString("ko-KR", {year:"numeric",month:"long",day:"numeric",weekday:"long"});
-  const timeStr = now.toLocaleTimeString("ko-KR", {hour:"2-digit",minute:"2-digit"});
+// HTML → 플레인텍스트 변환
+const news = allNews;
+const scmIssues = loadScmIssues();
+const now = new Date();
+const dateStr = now.toLocaleDateString(“ko-KR”, {year:“numeric”,month:“long”,day:“numeric”,weekday:“long”});
+const timeStr = now.toLocaleTimeString(“ko-KR”, {hour:“2-digit”,minute:“2-digit”});
 
-  const h24 = Date.now() - 24*60*60*1000;
-  const recent24 = news.filter(n => new Date(n.pubDate).getTime() > h24);
-  const highItems = news.filter(n => n.severity === "high").slice(0, 10);
+const h24 = Date.now() - 24*60*60*1000;
+const recent24 = news.filter(n => new Date(n.pubDate).getTime() > h24);
+const highItems = news.filter(n => n.severity === “high”).slice(0, 10);
 
-  let text = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let text = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚨 일일 공급망 리스크 보고서
 ${dateStr} ${timeStr} 기준
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 📊 현황 요약
 • 누적 수집: ${news.length}건
-• 긴급(🔴): ${news.filter(n=>n.severity==="high").length}건
-• 주의(🟡): ${news.filter(n=>n.severity==="medium").length}건
+• 긴급(🔴): ${news.filter(n=>n.severity===“high”).length}건
+• 주의(🟡): ${news.filter(n=>n.severity===“medium”).length}건
 • 최근 24h: ${recent24.length}건
 
 `;
 
-  if(scmIssues.length > 0){
-    text += `🏭 소재 공급망 영향 이슈 (mGSCS)\n`;
-    text += `─────────────────────────────\n`;
-    scmIssues.forEach(iss => {
-      const lvl = iss.level==="high"?"🔴 긴급":iss.level==="medium"?"🟡 주의":"🟢 모니터링";
-      text += `${lvl} ${iss.title} [${iss.region||""}]\n`;
-      text += `  소재: ${(iss.affectedMaterials||[]).join(", ")}\n`;
-      text += `  ${iss.summary||""}\n`;
-      if(iss.action) text += `  ▶ ${iss.action}\n`;
-      if(iss.newsLink) text += `  📎 ${iss.newsLink}\n`;
-      text += `\n`;
-    });
-  } else {
-    text += `🏭 소재 공급망 영향 이슈: ✅ 해당 없음\n\n`;
-  }
+if(scmIssues.length > 0){
+text += `🏭 소재 공급망 영향 이슈 (mGSCS)\n`;
+text += `─────────────────────────────\n`;
+scmIssues.forEach(iss => {
+const lvl = iss.level===“high”?“🔴 긴급”:iss.level===“medium”?“🟡 주의”:“🟢 모니터링”;
+text += `${lvl} ${iss.title} [${iss.region||""}]\n`;
+text += `  소재: ${(iss.affectedMaterials||[]).join(", ")}\n`;
+text += `  ${iss.summary||""}\n`;
+if(iss.action) text += `  ▶ ${iss.action}\n`;
+if(iss.newsLink) text += `  📎 ${iss.newsLink}\n`;
+text += `\n`;
+});
+} else {
+text += `🏭 소재 공급망 영향 이슈: ✅ 해당 없음\n\n`;
+}
 
-  if(highItems.length > 0){
-    text += `🔴 긴급 이슈\n`;
-    text += `─────────────────────────────\n`;
-    highItems.forEach((n,i) => {
-      text += `${i+1}. [${n.category}] ${n.titleKo||n.title}\n`;
-      if(n.summary) text += `   ${n.summary}\n`;
-      if(n.link) text += `   📎 ${n.link}\n`;
-      text += `\n`;
-    });
-  }
+if(highItems.length > 0){
+text += `🔴 긴급 이슈\n`;
+text += `─────────────────────────────\n`;
+highItems.forEach((n,i) => {
+text += `${i+1}. [${n.category}] ${n.titleKo||n.title}\n`;
+if(n.summary) text += `   ${n.summary}\n`;
+if(n.link) text += `   📎 ${n.link}\n`;
+text += `\n`;
+});
+}
 
-  if(recent24.length > 0){
-    text += `📰 최근 24시간 뉴스 (상위 20건)\n`;
-    text += `─────────────────────────────\n`;
-    recent24.slice(0,20).forEach((n,i) => {
-      text += `${i+1}. [${n.category}] ${n.titleKo||n.title} (${n.source||""}) ${formatTime(n.pubDate)}\n`;
-    });
-    if(recent24.length > 20) text += `... 외 ${recent24.length-20}건\n`;
-  }
+if(recent24.length > 0){
+text += `📰 최근 24시간 뉴스 (상위 20건)\n`;
+text += `─────────────────────────────\n`;
+recent24.slice(0,20).forEach((n,i) => {
+text += `${i+1}. [${n.category}] ${n.titleKo||n.title} (${n.source||""}) ${formatTime(n.pubDate)}\n`;
+});
+if(recent24.length > 20) text += `... 외 ${recent24.length-20}건\n`;
+}
 
-  text += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-자동 생성: mGSCS 재난·위기 뉴스 모니터
-소재전략 품질파트 · SK하이닉스
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+text += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 자동 생성: mGSCS 재난·위기 뉴스 모니터 소재전략 품질파트 · SK하이닉스 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
-  navigator.clipboard.writeText(text).then(()=>{
-    showToast("📋 보고서 텍스트가 클립보드에 복사되었습니다.");
-  }).catch(()=>{
-    // fallback
-    const ta = document.createElement("textarea");
-    ta.value = text; document.body.appendChild(ta);
-    ta.select(); document.execCommand("copy");
-    document.body.removeChild(ta);
-    showToast("📋 복사 완료");
-  });
+navigator.clipboard.writeText(text).then(()=>{
+showToast(“📋 보고서 텍스트가 클립보드에 복사되었습니다.”);
+}).catch(()=>{
+// fallback
+const ta = document.createElement(“textarea”);
+ta.value = text; document.body.appendChild(ta);
+ta.select(); document.execCommand(“copy”);
+document.body.removeChild(ta);
+showToast(“📋 복사 완료”);
+});
 }
 
 function openMailWithReport(){
-  // mailto: 방식으로 기본 메일 클라이언트 열기
-  const now = new Date();
-  const dateStr = now.toLocaleDateString("ko-KR", {year:"numeric",month:"long",day:"numeric"});
-  const subject = encodeURIComponent(`[mGSCS] 일일 공급망 리스크 보고서 — ${dateStr}`);
+// mailto: 방식으로 기본 메일 클라이언트 열기
+const now = new Date();
+const dateStr = now.toLocaleDateString(“ko-KR”, {year:“numeric”,month:“long”,day:“numeric”});
+const subject = encodeURIComponent(`[mGSCS] 일일 공급망 리스크 보고서 — ${dateStr}`);
 
-  // 먼저 텍스트 복사
-  copyReportText();
+// 먼저 텍스트 복사
+copyReportText();
 
-  // 짧은 본문만 mailto에 넣고, 상세 내용은 클립보드 활용 안내
-  const body = encodeURIComponent(
-    `일일 공급망 리스크 보고서를 첨부합니다.\n\n` +
-    `※ 상세 보고서 텍스트는 클립보드에 복사되었습니다. 본문에 붙여넣기(Ctrl+V)해주세요.\n` +
-    `※ 또는 HTML 파일을 다운로드하여 첨부파일로 전송할 수 있습니다.\n\n` +
-    `---\n` +
-    `mGSCS 재난·위기 뉴스 모니터\n` +
-    `소재전략 품질파트`
-  );
+// 짧은 본문만 mailto에 넣고, 상세 내용은 클립보드 활용 안내
+const body = encodeURIComponent(
+`일일 공급망 리스크 보고서를 첨부합니다.\n\n` +
+`※ 상세 보고서 텍스트는 클립보드에 복사되었습니다. 본문에 붙여넣기(Ctrl+V)해주세요.\n` +
+`※ 또는 HTML 파일을 다운로드하여 첨부파일로 전송할 수 있습니다.\n\n` +
+`---\n` +
+`mGSCS 재난·위기 뉴스 모니터\n` +
+`소재전략 품질파트`
+);
 
-  window.open(`mailto:?subject=${subject}&body=${body}`, "_self");
-  showToast("📧 메일 클라이언트가 열립니다. 본문에 Ctrl+V로 붙여넣기하세요.");
+window.open(`mailto:?subject=${subject}&body=${body}`, “_self”);
+showToast(“📧 메일 클라이언트가 열립니다. 본문에 Ctrl+V로 붙여넣기하세요.”);
 }
 
 // ════════════════════════════════════════
 // 렌더링
 // ════════════════════════════════════════
 function openArticle(url){
-  if(!url||url==="#") return;
-  try {
-    const w = window.open(url, "_blank");
-    if(!w || w.closed || typeof w.closed==='undefined'){
-      if(navigator.clipboard){
-        navigator.clipboard.writeText(url).then(()=>{
-          showToast("📋 링크가 복사되었습니다. 브라우저에서 붙여넣기하세요.");
-        });
-      } else {
-        prompt("아래 URL을 복사하세요:", url);
-      }
-    }
-  } catch(e){
-    prompt("아래 URL을 복사하세요:", url);
-  }
+if(!url||url===”#”) return;
+try {
+const w = window.open(url, “_blank”);
+if(!w || w.closed || typeof w.closed===‘undefined’){
+if(navigator.clipboard){
+navigator.clipboard.writeText(url).then(()=>{
+showToast(“📋 링크가 복사되었습니다. 브라우저에서 붙여넣기하세요.”);
+});
+} else {
+prompt(“아래 URL을 복사하세요:”, url);
+}
+}
+} catch(e){
+prompt(“아래 URL을 복사하세요:”, url);
+}
 }
 
 function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.opacity = '1';
-  t.style.pointerEvents = 'auto';
-  clearTimeout(t._timer);
-  t._timer = setTimeout(()=>{ t.style.opacity='0'; t.style.pointerEvents='none'; }, 3000);
+const t = document.getElementById(‘toast’);
+t.textContent = msg;
+t.style.opacity = ‘1’;
+t.style.pointerEvents = ‘auto’;
+clearTimeout(t._timer);
+t._timer = setTimeout(()=>{ t.style.opacity=‘0’; t.style.pointerEvents=‘none’; }, 3000);
 }
 
 function renderNews(){
-  const list=document.getElementById("newsList"),state=document.getElementById("stateScreen");
-  const displayed=activeCategory==="전체"?allNews:allNews.filter(n=>n.category===activeCategory);
-  renderTabs();
-  if(displayed.length===0){
-    list.style.display="none";state.style.display="block";
-    state.innerHTML=`<div class="state-icon">📭</div><div class="state-sub">재난·위기 뉴스가 없습니다.</div>`;
-    return;
-  }
-  state.style.display="none";list.style.display="grid";
-  list.innerHTML=displayed.map(item=>{
-    const catObj=CATS.find(c=>c.id===item.category)||{};
-    const clr=catObj.color||"#64748B";
-    const sevClr=item.severity==="high"?"#DC2626":item.severity==="medium"?"#D97706":"#16A34A";
-    const sevBg =item.severity==="high"?"#FEF2F2":item.severity==="medium"?"#FFFBEB":"#F0FDF4";
-    const sevLbl=item.severity==="high"?"🔴 긴급":item.severity==="medium"?"🟡 주의":"🟢 모니터링";
-    // ★ BugFix: XSS 방지 — href를 data 속성으로 안전하게 전달
-    const safeLink = item.link ? esc(item.link) : "";
-    const aiTag=item.aiVerified
-      ?`<span class="ai-badge">✦ AI 검증</span>`
-      :`<span style="font-size:10px;color:#94A3B8;padding:2px 6px;background:#F1F5F9;border-radius:4px;">키워드</span>`;
-    const langLabel=item.lang==="en"?"🇺🇸":item.lang==="zh"?"🇨🇳":item.lang==="ja"?"🇯🇵":"";
-    const newBadge=item.isNew?`<span class="new-badge">NEW</span>`:"";
-    return`<div class="news-card${item.isNew?" is-new":""}" style="border-left-color:${clr};">
-      <div class="news-icon" style="background:${clr}18;">${catObj.icon||"📰"}</div>
-      <div class="news-body">
-        <div class="news-tags">
-          ${newBadge}
-          <span class="tag" style="color:${clr};background:${clr}15;">${esc(item.category)}</span>
-          <span class="tag" style="color:${sevClr};background:${sevBg};">${sevLbl}</span>
-          ${aiTag}
-          ${langLabel?`<span class="time-tag">${langLabel}</span>`:""}
-          ${item.source?`<span class="src-tag">${esc(item.source)}</span>`:""}
-          <span class="time-tag">${formatTime(item.pubDate)}</span>
-        </div>
-        <div class="news-title">${esc(item.title)}</div>
-        ${item.titleKo?`<div class="news-title-ko">▶ ${esc(item.titleKo)}</div>`:""}
-        ${item.summary?`<div class="news-summary" style="border-left-color:${clr};">
-          <div class="sum-label">AI 요약</div>${esc(item.summary)}</div>`:""}
-      </div>
-      <button class="link-btn" data-url="${safeLink}" onclick="openArticle(this.dataset.url)" title="${safeLink}">기사 보기 →</button>
-    </div>`;
-  }).join("");
+const list=document.getElementById(“newsList”),state=document.getElementById(“stateScreen”);
+const displayed=activeCategory===“전체”?allNews:allNews.filter(n=>n.category===activeCategory);
+renderTabs();
+if(displayed.length===0){
+list.style.display=“none”;state.style.display=“block”;
+state.innerHTML=`<div class="state-icon">📭</div><div class="state-sub">재난·위기 뉴스가 없습니다.</div>`;
+return;
+}
+state.style.display=“none”;list.style.display=“grid”;
+list.innerHTML=displayed.map(item=>{
+const catObj=CATS.find(c=>c.id===item.category)||{};
+const clr=catObj.color||”#64748B”;
+const sevClr=item.severity===“high”?”#DC2626”:item.severity===“medium”?”#D97706”:”#16A34A”;
+const sevBg =item.severity===“high”?”#FEF2F2”:item.severity===“medium”?”#FFFBEB”:”#F0FDF4”;
+const sevLbl=item.severity===“high”?“🔴 긴급”:item.severity===“medium”?“🟡 주의”:“🟢 모니터링”;
+// ★ BugFix: XSS 방지 — href를 data 속성으로 안전하게 전달
+const safeLink = item.link ? esc(item.link) : “”;
+const aiTag=item.aiVerified
+?`<span class="ai-badge">✦ AI 검증</span>`
+:`<span style="font-size:10px;color:#94A3B8;padding:2px 6px;background:#F1F5F9;border-radius:4px;">키워드</span>`;
+const langLabel=item.lang===“en”?“🇺🇸”:item.lang===“zh”?“🇨🇳”:item.lang===“ja”?“🇯🇵”:””;
+const newBadge=item.isNew?`<span class="new-badge">NEW</span>`:””;
+return`<div class="news-card${item.isNew?" is-new":""}" style="border-left-color:${clr};"> <div class="news-icon" style="background:${clr}18;">${catObj.icon||"📰"}</div> <div class="news-body"> <div class="news-tags"> ${newBadge} <span class="tag" style="color:${clr};background:${clr}15;">${esc(item.category)}</span> <span class="tag" style="color:${sevClr};background:${sevBg};">${sevLbl}</span> ${aiTag} ${langLabel?`<span class="time-tag">${langLabel}</span>`:""} ${item.source?`<span class="src-tag">${esc(item.source)}</span>`:""} <span class="time-tag">${formatTime(item.pubDate)}</span> </div> <div class="news-title">${esc(item.title)}</div> ${item.titleKo?`<div class="news-title-ko">▶ ${esc(item.titleKo)}</div>`:""} ${item.summary?`<div class="news-summary" style="border-left-color:${clr};">
+<div class="sum-label">AI 요약</div>${esc(item.summary)}</div>`:""} </div> <button class="link-btn" data-url="${safeLink}" onclick="openArticle(this.dataset.url)" title="${safeLink}">기사 보기 →</button> </div>`;
+}).join(””);
 }
 
 function renderTabs(){
-  const counts={};
-  allNews.forEach(n=>{counts[n.category]=(counts[n.category]||0)+1;});
-  let html=`<button class="cat-tab" onclick="setCategory('전체')"
-    style="${activeCategory==="전체"?"background:#1E293B;border-color:#1E293B;color:#fff;font-weight:700;":""}">
-    전체${allNews.length?` (${allNews.length})`:""}</button>`;
-  CATS.forEach(cat=>{
-    if(!counts[cat.id])return;
-    const act=activeCategory===cat.id;
-    html+=`<button class="cat-tab" onclick="setCategory('${esc(cat.id)}')"
-      style="${act?`background:${cat.color};border-color:${cat.color};color:#fff;font-weight:700;`:""}">
-      ${cat.icon} ${esc(cat.id)} (${counts[cat.id]})</button>`;
-  });
-  document.getElementById("catTabs").innerHTML=html;
+const counts={};
+allNews.forEach(n=>{counts[n.category]=(counts[n.category]||0)+1;});
+let html=`<button class="cat-tab" onclick="setCategory('전체')" style="${activeCategory==="전체"?"background:#1E293B;border-color:#1E293B;color:#fff;font-weight:700;":""}"> 전체${allNews.length?` (${allNews.length})`:""}</button>`;
+CATS.forEach(cat=>{
+if(!counts[cat.id])return;
+const act=activeCategory===cat.id;
+html+=`<button class="cat-tab" onclick="setCategory('${esc(cat.id)}')" style="${act?`background:${cat.color};border-color:${cat.color};color:#fff;font-weight:700;`:""}"> ${cat.icon} ${esc(cat.id)} (${counts[cat.id]})</button>`;
+});
+document.getElementById(“catTabs”).innerHTML=html;
 }
 
 function renderSourceBar(results){
-  const bar=document.getElementById("sourceBar");
-  if(!results){bar.innerHTML=SOURCES.map(s=>`<span class="src-badge">${s.name}</span>`).join("");return;}
-  bar.innerHTML=SOURCES.map(s=>{
-    const st=results[s.name];
-    return`<span class="src-badge ${st===undefined?"":st?"ok":"err"}">${st===undefined?"·":st?"✓":"✗"} ${s.name}</span>`;
-  }).join("");
+const bar=document.getElementById(“sourceBar”);
+if(!results){bar.innerHTML=SOURCES.map(s=>`<span class="src-badge">${s.name}</span>`).join(””);return;}
+bar.innerHTML=SOURCES.map(s=>{
+const st=results[s.name];
+return`<span class="src-badge ${st===undefined?"":st?"ok":"err"}">${st===undefined?"·":st?"✓":"✗"} ${s.name}</span>`;
+}).join(””);
 }
 
 function setCategory(cat){activeCategory=cat;renderNews();}
 
 // 키워드 모달
-function openKwModal(){renderKwModal();document.getElementById("kwOverlay").classList.add("open");}
-function closeKwModal(){document.getElementById("kwOverlay").classList.remove("open");}
+function openKwModal(){renderKwModal();document.getElementById(“kwOverlay”).classList.add(“open”);}
+function closeKwModal(){document.getElementById(“kwOverlay”).classList.remove(“open”);}
 function renderKwModal(){
-  const COLORS=["#DC2626","#EA580C","#D97706","#16A34A","#059669","#2563EB","#7C3AED","#92400E","#B91C1C","#0369A1","#C2410C","#1D4ED8","#475569"];
-  const body=document.getElementById("kwBody");
-  body.innerHTML=`
-    ${CATS.map((cat,ci)=>`
-    <div class="kw-section">
-      <div class="kw-section-head">
-        <div class="kw-section-title" style="color:${cat.color};">
-          <span style="font-size:18px;">${cat.icon}</span>
-          <input value="${esc(cat.id)}" onchange="renameCat(${ci},this.value)"
-            style="border:1px solid #E2E8F0;border-radius:4px;padding:2px 6px;font-size:12px;font-weight:700;color:${cat.color};width:90px;outline:none;font-family:'Malgun Gothic',sans-serif;">
-          <input type="color" value="${cat.color}" onchange="recolorCat(${ci},this.value)"
-            style="width:24px;height:24px;border:none;border-radius:4px;cursor:pointer;padding:0;" title="색상 변경">
-          <input value="${cat.icon}" onchange="reIconCat(${ci},this.value)"
-            style="border:1px solid #E2E8F0;border-radius:4px;padding:2px 4px;font-size:16px;width:44px;text-align:center;outline:none;" title="아이콘 변경">
-        </div>
-        <button class="kw-del-cat" onclick="deleteCat(${ci})">카테고리 삭제</button>
-      </div>
-      <div class="kw-tags">
-        ${cat.kw.map((k,ki)=>`
-          <span class="kw-tag">${esc(k)}
-            <button class="kw-tag-del" onclick="deleteKw(${ci},${ki})">×</button>
-          </span>`).join("")}
-      </div>
-      <div class="kw-add-row">
-        <input class="kw-input" id="kw_${ci}" placeholder="키워드 추가 후 Enter..."
-          onkeydown="if(event.key==='Enter')addKw(${ci})">
-        <button class="kw-add-btn" onclick="addKw(${ci})">+ 추가</button>
-      </div>
-    </div>
-    <hr class="kw-divider">`).join("")}
-    <div class="add-cat-box">
-      <h3>➕ 새 카테고리 추가</h3>
-      <div class="add-cat-grid">
-        <label>카테고리 이름 <input id="newCatName" placeholder="예: 핵위협"></label>
-        <label>아이콘 (이모지) <input id="newCatIcon" placeholder="예: ☢️" maxlength="4"></label>
-        <label>색상
-          <div style="display:flex;align-items:center;gap:6px;">
-            <input type="color" id="newCatColor" value="#DC2626" style="width:36px;height:32px;border:none;border-radius:4px;cursor:pointer;padding:0;">
-            <select id="newCatColorPreset" onchange="document.getElementById('newCatColor').value=this.value" style="flex:1;">
-              ${COLORS.map(c=>`<option value="${c}" style="background:${c};color:#fff;">${c}</option>`).join("")}
-            </select>
-          </div>
-        </label>
-        <label>기본 키워드 (쉼표 구분) <input id="newCatKw" placeholder="예: 핵, 핵무기, 핵실험"></label>
-      </div>
-      <button class="btn btn-dark" onclick="addCat()" style="margin-top:4px;">✓ 카테고리 추가</button>
-    </div>`;
+const COLORS=[”#DC2626”,”#EA580C”,”#D97706”,”#16A34A”,”#059669”,”#2563EB”,”#7C3AED”,”#92400E”,”#B91C1C”,”#0369A1”,”#C2410C”,”#1D4ED8”,”#475569”];
+const body=document.getElementById(“kwBody”);
+body.innerHTML=` ${CATS.map((cat,ci)=>`
+<div class="kw-section">
+<div class="kw-section-head">
+<div class="kw-section-title" style="color:${cat.color};">
+<span style="font-size:18px;">${cat.icon}</span>
+<input value="${esc(cat.id)}" onchange="renameCat(${ci},this.value)"
+style="border:1px solid #E2E8F0;border-radius:4px;padding:2px 6px;font-size:12px;font-weight:700;color:${cat.color};width:90px;outline:none;font-family:'Malgun Gothic',sans-serif;">
+<input type="color" value="${cat.color}" onchange="recolorCat(${ci},this.value)"
+style="width:24px;height:24px;border:none;border-radius:4px;cursor:pointer;padding:0;" title="색상 변경">
+<input value="${cat.icon}" onchange="reIconCat(${ci},this.value)"
+style="border:1px solid #E2E8F0;border-radius:4px;padding:2px 4px;font-size:16px;width:44px;text-align:center;outline:none;" title="아이콘 변경">
+</div>
+<button class="kw-del-cat" onclick="deleteCat(${ci})">카테고리 삭제</button>
+</div>
+<div class="kw-tags">
+${cat.kw.map((k,ki)=>` <span class="kw-tag">${esc(k)} <button class="kw-tag-del" onclick="deleteKw(${ci},${ki})">×</button> </span>`).join(””)}
+</div>
+<div class="kw-add-row">
+<input class="kw-input" id="kw_${ci}" placeholder="키워드 추가 후 Enter..."
+onkeydown="if(event.key==='Enter')addKw(${ci})">
+<button class="kw-add-btn" onclick="addKw(${ci})">+ 추가</button>
+</div>
+</div>
+<hr class="kw-divider">`).join("")} <div class="add-cat-box"> <h3>➕ 새 카테고리 추가</h3> <div class="add-cat-grid"> <label>카테고리 이름 <input id="newCatName" placeholder="예: 핵위협"></label> <label>아이콘 (이모지) <input id="newCatIcon" placeholder="예: ☢️" maxlength="4"></label> <label>색상 <div style="display:flex;align-items:center;gap:6px;"> <input type="color" id="newCatColor" value="#DC2626" style="width:36px;height:32px;border:none;border-radius:4px;cursor:pointer;padding:0;"> <select id="newCatColorPreset" onchange="document.getElementById('newCatColor').value=this.value" style="flex:1;"> ${COLORS.map(c=>`<option value="${c}" style="background:${c};color:#fff;">${c}</option>`).join("")} </select> </div> </label> <label>기본 키워드 (쉼표 구분) <input id="newCatKw" placeholder="예: 핵, 핵무기, 핵실험"></label> </div> <button class="btn btn-dark" onclick="addCat()" style="margin-top:4px;">✓ 카테고리 추가</button> </div>`;
 }
 
 function renameCat(i,val){const v=val.trim();if(!v)return;CATS[i].id=v;saveCategories();}
 function recolorCat(i,val){CATS[i].color=val;saveCategories();}
 function reIconCat(i,val){const v=val.trim();if(!v)return;CATS[i].icon=v;saveCategories();}
 function deleteCat(i){
-  if(!confirm(`"${CATS[i].id}" 카테고리를 삭제하시겠습니까?`))return;
-  CATS.splice(i,1);saveCategories();renderKwModal();
+if(!confirm(`"${CATS[i].id}" 카테고리를 삭제하시겠습니까?`))return;
+CATS.splice(i,1);saveCategories();renderKwModal();
 }
 function addKw(ci){
-  const input=document.getElementById(`kw_${ci}`);
-  const val=input.value.trim();
-  if(!val)return;
-  if(CATS[ci].kw.includes(val)){alert("이미 등록된 키워드입니다.");return;}
-  CATS[ci].kw.push(val);input.value="";saveCategories();renderKwModal();
+const input=document.getElementById(`kw_${ci}`);
+const val=input.value.trim();
+if(!val)return;
+if(CATS[ci].kw.includes(val)){alert(“이미 등록된 키워드입니다.”);return;}
+CATS[ci].kw.push(val);input.value=””;saveCategories();renderKwModal();
 }
 function deleteKw(ci,ki){
-  if(CATS[ci].kw.length<=1){alert("최소 1개 이상의 키워드가 필요합니다.");return;}
-  CATS[ci].kw.splice(ki,1);saveCategories();renderKwModal();
+if(CATS[ci].kw.length<=1){alert(“최소 1개 이상의 키워드가 필요합니다.”);return;}
+CATS[ci].kw.splice(ki,1);saveCategories();renderKwModal();
 }
 function addCat(){
-  const name=document.getElementById("newCatName").value.trim();
-  const icon=document.getElementById("newCatIcon").value.trim()||"📌";
-  const color=document.getElementById("newCatColor").value;
-  const kwRaw=document.getElementById("newCatKw").value;
-  const kw=kwRaw.split(",").map(s=>s.trim()).filter(Boolean);
-  if(!name){alert("카테고리 이름을 입력해주세요.");return;}
-  if(CATS.find(c=>c.id===name)){alert("이미 존재하는 카테고리 이름입니다.");return;}
-  if(kw.length===0){alert("키워드를 최소 1개 입력해주세요.");return;}
-  CATS.push({id:name,icon,color,kw});
-  saveCategories();
-  document.getElementById("newCatName").value="";
-  document.getElementById("newCatIcon").value="";
-  document.getElementById("newCatKw").value="";
-  renderKwModal();
-  alert(`"${name}" 카테고리가 추가되었습니다.`);
+const name=document.getElementById(“newCatName”).value.trim();
+const icon=document.getElementById(“newCatIcon”).value.trim()||“📌”;
+const color=document.getElementById(“newCatColor”).value;
+const kwRaw=document.getElementById(“newCatKw”).value;
+const kw=kwRaw.split(”,”).map(s=>s.trim()).filter(Boolean);
+if(!name){alert(“카테고리 이름을 입력해주세요.”);return;}
+if(CATS.find(c=>c.id===name)){alert(“이미 존재하는 카테고리 이름입니다.”);return;}
+if(kw.length===0){alert(“키워드를 최소 1개 입력해주세요.”);return;}
+CATS.push({id:name,icon,color,kw});
+saveCategories();
+document.getElementById(“newCatName”).value=””;
+document.getElementById(“newCatIcon”).value=””;
+document.getElementById(“newCatKw”).value=””;
+renderKwModal();
+alert(`"${name}" 카테고리가 추가되었습니다.`);
 }
 
-function setDot(s){const d=document.getElementById("liveDot");d.className="live-dot"+(s==="loading"?" loading":s==="error"?" error":"");}
-function setStatus(msg,isErr){const el=document.getElementById("statusText");el.textContent=msg;el.className="status-text"+(isErr?" err":"");}
-function setBtn(dis){const b=document.getElementById("refreshBtn");b.disabled=dis;b.textContent=dis?"수집 중...":"🔄 새로고침";}
-function setUpdateTime(){document.getElementById("updateTime").textContent=new Date().toLocaleTimeString("ko-KR")+" 업데이트";}
+function setDot(s){const d=document.getElementById(“liveDot”);d.className=“live-dot”+(s===“loading”?” loading”:s===“error”?” error”:””);}
+function setStatus(msg,isErr){const el=document.getElementById(“statusText”);el.textContent=msg;el.className=“status-text”+(isErr?” err”:””);}
+function setBtn(dis){const b=document.getElementById(“refreshBtn”);b.disabled=dis;b.textContent=dis?“수집 중…”:“🔄 새로고침”;}
+function setUpdateTime(){document.getElementById(“updateTime”).textContent=new Date().toLocaleTimeString(“ko-KR”)+” 업데이트”;}
 function setProgress(pct,label){
-  const f=document.getElementById("progressFill"),l=document.getElementById("progressLabel");
-  if(f)f.style.width=pct+"%";if(l&&label)l.textContent=label;
+const f=document.getElementById(“progressFill”),l=document.getElementById(“progressLabel”);
+if(f)f.style.width=pct+”%”;if(l&&label)l.textContent=label;
 }
 function showLoadingState(){
-  const s=document.getElementById("stateScreen");
-  const list=document.getElementById("newsList");
-  s.style.display="block";
-  list.style.display="none";
-  const icon=s.querySelector(".state-icon");
-  const sub=s.querySelector(".state-sub");
-  if(icon){icon.className="state-icon spin";icon.textContent="⚙️";}
-  if(sub){sub.textContent="언론사 RSS를 수집하고 있습니다...";}
-  if(!s.querySelector(".progress-wrap")){
-    s.insertAdjacentHTML("beforeend",`<div class="progress-wrap">
-      <div class="progress-label" id="progressLabel">준비 중...</div>
-      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-    </div>`);
-  } else {
-    setProgress(0,"준비 중...");
-  }
+const s=document.getElementById(“stateScreen”);
+const list=document.getElementById(“newsList”);
+s.style.display=“block”;
+list.style.display=“none”;
+const icon=s.querySelector(”.state-icon”);
+const sub=s.querySelector(”.state-sub”);
+if(icon){icon.className=“state-icon spin”;icon.textContent=“⚙️”;}
+if(sub){sub.textContent=“언론사 RSS를 수집하고 있습니다…”;}
+if(!s.querySelector(”.progress-wrap”)){
+s.insertAdjacentHTML(“beforeend”,`<div class="progress-wrap"> <div class="progress-label" id="progressLabel">준비 중...</div> <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div> </div>`);
+} else {
+setProgress(0,“준비 중…”);
+}
 }
 function showError(msg){
-  setDot("error");setStatus("❌ 수집 실패",true);
-  document.getElementById("stateScreen").style.display="block";
-  document.getElementById("newsList").style.display="none";
-  document.getElementById("stateScreen").innerHTML=`
-    <div class="state-icon">⚠️</div>
-    <div class="state-title">수집 실패</div>
-    <div class="state-sub">${esc(msg)}</div>
-    <div class="error-guide">
-      <h4>확인 사항</h4>
-      <p>1. 🔑 API 키 버튼을 눌러 키를 입력해주세요<br/>2. 인터넷 연결 상태를 확인해주세요<br/>3. 잠시 후 다시 시도해주세요</p>
-    </div>
-    <button class="retry-btn" onclick="startFetch()">🔄 다시 시도</button>`;
-  isLoading=false;setBtn(false);
+setDot(“error”);setStatus(“❌ 수집 실패”,true);
+document.getElementById(“stateScreen”).style.display=“block”;
+document.getElementById(“newsList”).style.display=“none”;
+document.getElementById(“stateScreen”).innerHTML=` <div class="state-icon">⚠️</div> <div class="state-title">수집 실패</div> <div class="state-sub">${esc(msg)}</div> <div class="error-guide"> <h4>확인 사항</h4> <p>1. 🔑 API 키 버튼을 눌러 키를 입력해주세요<br/>2. 인터넷 연결 상태를 확인해주세요<br/>3. 잠시 후 다시 시도해주세요</p> </div> <button class="retry-btn" onclick="startFetch()">🔄 다시 시도</button>`;
+isLoading=false;setBtn(false);
 }
 function resetCountdown(){
-  countdown=1800;clearInterval(cdInterval);
-  cdInterval=setInterval(()=>{
-    countdown--;
-    const m=Math.floor(countdown/60),s=String(countdown%60).padStart(2,"0");
-    const el=document.getElementById("updateTime");
-    if(el){const base=el.textContent.split("·")[0].trim();el.textContent=`${base} · 다음 ${m}:${s}`;}
-    if(countdown<=0)startFetch();
-  },1000);
+countdown=1800;clearInterval(cdInterval);
+cdInterval=setInterval(()=>{
+countdown–;
+const m=Math.floor(countdown/60),s=String(countdown%60).padStart(2,“0”);
+const el=document.getElementById(“updateTime”);
+if(el){const base=el.textContent.split(”·”)[0].trim();el.textContent=`${base} · 다음 ${m}:${s}`;}
+if(countdown<=0)startFetch();
+},1000);
 }
 
 // ════════════════════════════════════════
@@ -1569,20 +1530,21 @@ if(savedScm.length > 0) renderScmIssues(savedScm);
 
 const savedNews = loadNewsDB();
 if(savedNews.length > 0){
-  // ★ BugFix: 로드 시 isNew 플래그 제거
-  savedNews.forEach(n => { delete n.isNew; });
-  allNews = savedNews;
-  updateDbBar(savedNews);
-  renderNews();
-  setStatus(`저장된 뉴스 ${savedNews.length}건 표시 중 · 새로고침으로 업데이트`, false);
-  setDot("ok");
-  document.getElementById("stateScreen").style.display = "none";
-  document.getElementById("newsList").style.display = "grid";
+// ★ BugFix: 로드 시 isNew 플래그 제거
+savedNews.forEach(n => { delete n.isNew; });
+allNews = savedNews;
+updateDbBar(savedNews);
+renderNews();
+setStatus(`저장된 뉴스 ${savedNews.length}건 표시 중 · 새로고침으로 업데이트`, false);
+setDot(“ok”);
+document.getElementById(“stateScreen”).style.display = “none”;
+document.getElementById(“newsList”).style.display = “grid”;
 } else {
-  updateDbBar([]);
+updateDbBar([]);
 }
 
 startFetch();
 </script>
+
 </body>
 </html>
