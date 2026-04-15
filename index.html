@@ -302,14 +302,34 @@ const DEFAULT_CATEGORIES = [
   {id:"지진",    icon:"🌍", color:"#92400E", kw:["지진","강진","여진","진앙","진도"]},
   {id:"태풍",    icon:"🌀", color:"#7C3AED", kw:["태풍","폭풍","사이클론","허리케인"]},
   {id:"전쟁",    icon:"⚔️",  color:"#B91C1C", kw:["전쟁","공습","포격","침공","군사작전","전투","폭격","이란 전쟁"]},
-  {id:"무역규제",  icon:"🚫", color:"#D97706", kw:["관세","무역분쟁","관세폭탄","관세 부과","무역전쟁","수출 금지","수출 중단","수출 통제","수출 규제","수입 금지","수입 규제","수출 제한","수출금지","수출중단","수출통제","자원 무기화","원자재 무기화","희토류 규제","희토류 수출","반도체 규제","공급 차단","공급 중단","원료 수출","원료 금지","교역 중단","통상 규제","제재 조치","경제 제재","수출허가","수출허가 제한"]},
+  {id:"무역규제",  icon:"🚫", color:"#D97706", kw:[
+    "관세","무역분쟁","관세폭탄","관세 부과","무역전쟁","보복 관세","관세 보복","통상 보복","무역 보복",
+    "수출 금지","수출 중단","수출 통제","수출 규제","수출 제한","수출금지","수출중단","수출통제",
+    "수출 심사","수출 관리","수출 허가","수출허가 제한","수출 통제 강화","수출 제한 조치",
+    "수입 금지","수입 규제","수입 제한","수입 통제",
+    "전략물자","화이트리스트","화이트 리스트","백색국가","개별허가","포괄허가",
+    "자원 무기화","원자재 무기화","경제 제재","제재 조치","교역 중단","통상 규제",
+    "희토류 규제","희토류 수출","반도체 규제","반도체 수출","소재 규제","소재 수출",
+    "갈륨 수출","게르마늄 수출","갈륨 규제","게르마늄 규제","안티몬 규제","텅스텐 규제",
+    "불화수소 규제","불산 규제","포토레지스트 규제"
+  ]},
   {id:"해상봉쇄",  icon:"⚓", color:"#0E7490", kw:["봉쇄","해상봉쇄","해상 봉쇄","해협 봉쇄","호르무즈","호르무즈 봉쇄","말라카 해협","수에즈 운하","수에즈 봉쇄","해상 물류","해운 차질","항로 차단","선박 통행","해적","나포"]},
   {id:"환율",    icon:"💱", color:"#059669", kw:["환율 급등","환율 급락","달러 환율","외환위기","환율 충격"]},
   {id:"화산",    icon:"🌋", color:"#C2410C", kw:["화산","용암","분화","분출","화산재"]},
   {id:"우크라이나",icon:"🇺🇦",color:"#1D4ED8",kw:["우크라이나","키이우","젤렌스키","러시아군"]},
   {id:"이스라엘", icon:"🇮🇱",color:"#0369A1",kw:["이스라엘","가자지구","하마스","팔레스타인","네타냐후"]},
   {id:"폭발",    icon:"💥", color:"#DC2626", kw:["폭발 사고","폭탄","폭파","폭발물","테러 폭발"]},
-  {id:"공급망위기",icon:"🔗", color:"#7C2D12", kw:["공급망 위기","공급망 충격","공급망 차질","공급망 마비","공급망 붕괴","공급 쇼크","원자재 폭등","원자재 부족","원자재 대란","황산 수출","황산 금지","유황 부족","네온가스","헬륨 수출","팔라듐","니켈 부족","가스 공급","전력 대란","정전","단수","용수 부족"]},
+  {id:"공급망위기",icon:"🔗", color:"#7C2D12", kw:[
+    "공급망 위기","공급망 충격","공급망 차질","공급망 마비","공급망 붕괴","공급 쇼크","공급 차단","공급 중단",
+    "원자재 폭등","원자재 부족","원자재 대란","원자재 수급","원자재 가격","원료 수급","원료 부족",
+    "황산 수출","황산 금지","황산 부족","유황 부족","유황 수급",
+    "불화수소","불산","포토레지스트","감광액","플루오린 폴리이미드","EUV 레지스트",
+    "네온가스","네온 가스","크립톤","크세논","헬륨 수출","헬륨 부족",
+    "갈륨","게르마늄","안티몬","텅스텐","팔라듐","니켈 부족","코발트 부족",
+    "슬러리 수급","CMP 수급","특수가스 수급","웨이퍼 수급","타겟 수급",
+    "가스 공급","전력 대란","정전","단수","용수 부족","전력 부족",
+    "반도체 소재","반도체 원자재","반도체 원료","소재 수급","소재 부족","소재 대란"
+  ]},
   {id:"이란",    icon:"🇮🇷",color:"#831843",kw:["이란","테헤란","호메이니","이란 제재","이란 공습","페르시아만"]},
 ];
 
@@ -470,6 +490,7 @@ function updateApiKeyBtn(){
 // 언론사 RSS
 // ════════════════════════════════════════
 const SOURCES=[
+  // ── 한국 (13) ──
   {name:"연합뉴스", url:"https://www.yonhapnews.co.kr/rss/allheadlines.xml"},
   {name:"KBS",     url:"https://news.kbs.co.kr/rss/rss.do?source=news"},
   {name:"MBC",     url:"https://imnews.imbc.com/rss/news/news_00.xml"},
@@ -480,6 +501,10 @@ const SOURCES=[
   {name:"한국경제", url:"https://www.hankyung.com/feed/all-news"},
   {name:"매일경제", url:"https://www.mk.co.kr/rss/30000001/"},
   {name:"YTN",     url:"https://www.ytn.co.kr/rss/rss.php?id=01"},
+  {name:"전자신문", url:"http://rss.etnews.co.kr/Section901.xml"},
+  {name:"경향신문", url:"https://www.khan.co.kr/rss/rssdata/total_news.xml"},
+  {name:"헤럴드경제",url:"http://biz.heraldcorp.com/common/rss_xml.php?ct=010000000000"},
+  // ── 미국·유럽 (8) ──
   {name:"Reuters",    url:"https://feeds.reuters.com/reuters/topNews"},
   {name:"BBC",        url:"https://feeds.bbci.co.uk/news/world/rss.xml"},
   {name:"AP News",    url:"https://rsshub.app/apnews/topics/ap-top-news"},
@@ -487,11 +512,17 @@ const SOURCES=[
   {name:"CNN",        url:"http://rss.cnn.com/rss/edition_world.rss"},
   {name:"Guardian",   url:"https://www.theguardian.com/world/rss"},
   {name:"DW",         url:"https://rss.dw.com/rdf/rss-en-all"},
+  {name:"CNBC",       url:"https://www.cnbc.com/id/100727362/device/rss/rss.html"},
+  // ── 중국 (5) ──
   {name:"新华社",     url:"https://rsshub.app/xinhua/world"},
   {name:"人民日报",   url:"https://rsshub.app/peopledaily/world"},
   {name:"CGTN",      url:"https://www.cgtn.com/rss/news.xml"},
   {name:"South China Morning Post", url:"https://www.scmp.com/rss/91/feed"},
   {name:"Global Times",url:"https://www.globaltimes.cn/rss/outbrain.xml"},
+  // ── 대만 (2) — GlobalWafers·TSMC·대만해협 ──
+  {name:"中央通訊社", url:"https://rsshub.app/cna/aall"},
+  {name:"DIGITIMES",  url:"https://www.digitimes.com/rss/daily_news_rss.xml"},
+  // ── 일본 (9) ──
   {name:"NHK",        url:"https://www3.nhk.or.jp/rss/news/cat0.xml"},
   {name:"朝日新聞",   url:"https://rsshub.app/asahi/topics/0"},
   {name:"読売新聞",   url:"https://rsshub.app/yomiuri/top"},
@@ -501,6 +532,8 @@ const SOURCES=[
   {name:"共同通信",   url:"https://rsshub.app/kyodonews/main"},
   {name:"TBS News",  url:"https://newsdig.tbs.co.jp/rss"},
   {name:"Yahoo!JP",  url:"https://news.yahoo.co.jp/rss/topics/top-picks.xml"},
+  // ── 중동 (2) — 호르무즈·수에즈 물류 ──
+  {name:"Middle East Eye", url:"https://www.middleeasteye.net/rss"},
 ];
 
 const PROXIES=[
@@ -774,9 +807,9 @@ function detectCategory(title,desc){
     [["typhoon","hurricane","cyclone","tropical storm"],"태풍"],
     [["volcano","volcanic eruption","lava"],"화산"],
     [["airstrike","air strike","bombardment","shelling","military offensive"],"전쟁"],
-    [["tariff","trade war","import duty","trade sanction","export ban","export control","export restriction","export halt","export curb","sanctions","embargo","trade restriction","rare earth ban","mineral ban","resource weaponization"],"무역규제"],
+    [["tariff","trade war","import duty","trade sanction","export ban","export control","export restriction","export halt","export curb","export screening","sanctions","embargo","trade restriction","trade retaliation","retaliatory tariff","strategic materials","whitelist","white list","entity list","rare earth ban","mineral ban","resource weaponization","gallium export","germanium export","antimony export","semiconductor restriction","chip ban","chip export"],"무역규제"],
     [["blockade","naval blockade","strait of hormuz","hormuz","malacca strait","suez canal","maritime blockade","shipping disruption","sea lane","strait closure","shipping route"],"해상봉쇄"],
-    [["supply chain crisis","supply shock","supply disruption","supply crunch","raw material shortage","material shortage","sulfuric acid","neon gas","helium export","palladium","nickel shortage","blackout","power outage","water shortage"],"공급망위기"],
+    [["supply chain crisis","supply shock","supply disruption","supply crunch","raw material shortage","material shortage","sulfuric acid","hydrogen fluoride","photoresist","fluorinated polyimide","neon gas","krypton","xenon","helium export","helium shortage","gallium","germanium","antimony","tungsten","palladium","nickel shortage","cobalt shortage","blackout","power outage","water shortage","semiconductor material","chip material","wafer shortage","slurry supply","cmp supply","special gas"],"공급망위기"],
     [["currency crisis","exchange rate crash","forex"],"환율"],
     [["explosion","blast","bomb attack","bombing","detonation"],"폭발"],
     [["ukraine","kyiv","zelensky"],"우크라이나"],
@@ -844,20 +877,30 @@ async function startFetch(){
       "war","airstrike","missile","explosion","blast","bomb","tariff","trade war","ukraine",
       "kyiv","israel","gaza","hamas","strike","walkout","volcano","eruption","tsunami",
       "terror","shooting","crash","disaster","casualties","killed","injured","dead",
-      "export ban","export halt","export control","export restriction","embargo","sanctions",
+      "export ban","export halt","export control","export restriction","export screening","embargo","sanctions",
+      "trade retaliation","retaliatory tariff","entity list","whitelist","strategic materials",
       "blockade","hormuz","malacca","suez","strait","naval blockade","shipping disruption",
       "supply chain","supply shock","supply crisis","supply disruption","raw material",
-      "sulfuric acid","neon gas","helium","palladium","rare earth","nickel shortage",
+      "sulfuric acid","hydrogen fluoride","photoresist","fluorinated polyimide",
+      "neon gas","krypton","xenon","helium","gallium","germanium","antimony","tungsten",
+      "palladium","rare earth","nickel shortage","cobalt shortage","semiconductor material",
+      "wafer shortage","chip ban","chip export",
       "blackout","power outage","water shortage","iran","tehran","persian gulf",
       "port strike","dock strike","factory shutdown","plant closure"];
     const zhKw=["地震","洪水","台风","火灾","爆炸","战争","空袭","关税","汇率","火山","罢工","海啸",
-      "出口禁令","出口管制","出口限制","出口中断","制裁","封锁","禁运",
-      "硫酸","霍尔木兹","马六甲","供应链","供应危机","原材料","稀土",
-      "伊朗","停电","断水","海上封锁","贸易战","贸易制裁"];
+      "出口禁令","出口管制","出口限制","出口中断","出口审查","制裁","封锁","禁运","白名单","战略物资",
+      "硫酸","氟化氢","光刻胶","氟化聚酰亚胺",
+      "镓","锗","锑","钨","稀土","钯","半导体材料","芯片材料","晶圆",
+      "霍尔木兹","马六甲","供应链","供应危机","原材料","原材料短缺",
+      "伊朗","停电","断水","海上封锁","贸易战","贸易制裁","贸易报复"];
     const jaKw=["地震","津波","台風","火災","爆発","洪水","噴火","戦争","ストライキ","円安","円高","関税","テロ","災害",
-      "輸出禁止","輸出規制","輸出停止","制裁","封鎖","禁輸",
-      "硫酸","ホルムズ","マラッカ","供給危機","原材料","レアアース",
-      "イラン","停電","断水","海上封鎖","貿易戦争"];
+      "輸出禁止","輸出規制","輸出停止","輸出管理","輸出審査","制裁","封鎖","禁輸",
+      "戦略物資","ホワイト国","包括許可","個別許可",
+      "硫酸","フッ化水素","フォトレジスト","フッ素ポリイミド",
+      "ガリウム","ゲルマニウム","アンチモン","タングステン","ネオン","クリプトン","キセノン","ヘリウム",
+      "レアアース","パラジウム","半導体材料","ウエハー",
+      "ホルムズ","マラッカ","供給危機","原材料","原材料不足",
+      "イラン","停電","断水","海上封鎖","貿易戦争","貿易報復"];
 
     const kwFiltered=collected.filter(it=>{
       const t=it.title,tl=t.toLowerCase(),d=(it.desc||"").toLowerCase();
